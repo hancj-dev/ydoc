@@ -15,10 +15,10 @@
 
 <span class="token title important"><span class="token punctuation">###</span> 章节 1</span>
 
-<span class="token list punctuation">*</span> <span class="token url">[快速开始](start.md)</span>
-  <span class="token list punctuation">*</span> <span class="token url">[安装](installation.md)</span>
-<span class="token list punctuation">*</span> <span class="token url">[项目设置](setting.md)</span>
-  <span class="token list punctuation">*</span> <span class="token url">[配置文件](config.md)</span>
+<span class="token list punctuation">*</span> <span class="token url">[<span class="token content">快速开始</span>](start.md)</span>
+  <span class="token list punctuation">*</span> <span class="token url">[<span class="token content">安装</span>](installation.md)</span>
+<span class="token list punctuation">*</span> <span class="token url">[<span class="token content">项目设置</span>](setting.md)</span>
+  <span class="token list punctuation">*</span> <span class="token url">[<span class="token content">配置文件</span>](config.md)</span>
 </code></pre>
 <h5>锚点</h5>
 <p>目录中的章节可以使用锚点指向文件的特定部分。</p>
@@ -26,9 +26,9 @@
 
 <span class="token title important"><span class="token punctuation">###</span> 章节 2</span>
 
-<span class="token list punctuation">*</span> <span class="token url">[API](api.md)</span>
-  <span class="token list punctuation">*</span> <span class="token url">[a](api.md#anchor1)</span>
-  <span class="token list punctuation">*</span> <span class="token url">[b](api.md#anchor2)</span>
+<span class="token list punctuation">*</span> <span class="token url">[<span class="token content">API</span>](api.md)</span>
+  <span class="token list punctuation">*</span> <span class="token url">[<span class="token content">a</span>](api.md#anchor1)</span>
+  <span class="token list punctuation">*</span> <span class="token url">[<span class="token content">b</span>](api.md#anchor2)</span>
 </code></pre>
 <h5>章节</h5>
 <p>目录可以分为多个部分，如下所示：</p>
@@ -36,27 +36,45 @@
 
 <span class="token title important"><span class="token punctuation">###</span> 章节 1</span>
 
-<span class="token list punctuation">*</span> <span class="token url">[快速开始](start.md)</span>
-  <span class="token list punctuation">*</span> <span class="token url">[安装](installation.md)</span>
-<span class="token list punctuation">*</span> <span class="token url">[项目设置](setting.md)</span>
-  <span class="token list punctuation">*</span> <span class="token url">[配置文件](config.md)</span>
+<span class="token list punctuation">*</span> <span class="token url">[<span class="token content">快速开始</span>](start.md)</span>
+  <span class="token list punctuation">*</span> <span class="token url">[<span class="token content">安装</span>](installation.md)</span>
+<span class="token list punctuation">*</span> <span class="token url">[<span class="token content">项目设置</span>](setting.md)</span>
+  <span class="token list punctuation">*</span> <span class="token url">[<span class="token content">配置文件</span>](config.md)</span>
 
 <span class="token title important"><span class="token punctuation">###</span> 章节 2</span>
 
-<span class="token list punctuation">*</span> <span class="token url">[API](api.md)</span>
-  <span class="token list punctuation">*</span> <span class="token url">[a](api.md#a)</span>
-  <span class="token list punctuation">*</span> <span class="token url">[b](api.md#b)</span>
+<span class="token list punctuation">*</span> <span class="token url">[<span class="token content">API</span>](api.md)</span>
+  <span class="token list punctuation">*</span> <span class="token url">[<span class="token content">a</span>](api.md#a)</span>
+  <span class="token list punctuation">*</span> <span class="token url">[<span class="token content">b</span>](api.md#b)</span>
 
 </code></pre>
 </div><div class="m-content-container m-paging"><div class="m-paging-prev m-paging-item"><a href="pages-index.html" class="href"><span class="ui-font-ydoc"></span>页面</a></div><div class="m-paging-next m-paging-item"><a href="pages-custom.html" class="href">自定义页面<span class="ui-font-ydoc"></span></a></div></div></div></div></div><div></div><script>
     var $content = document.getElementById('js-content');
     var $summaryItems = Array.prototype.slice.call(document.querySelectorAll('#js-menu .href'));
     var $menu = document.getElementById('js-menu');
+    if (sessionStorage.prevPathname) {
+      sessionStorage.setItem('prevPrevPathname', sessionStorage.prevPathname);
+      sessionStorage.setItem('prevPrevMenuScrollTop', sessionStorage.prevMenuScrollTop);
+      sessionStorage.setItem('prevPrevContentScrollTop', sessionStorage.prevContentScrollTop);
+    }
+    if (sessionStorage.locationPathname) {
+      sessionStorage.setItem('prevPathname', sessionStorage.locationPathname);
+      sessionStorage.setItem('prevMenuScrollTop', sessionStorage.menuScrollTop);
+      sessionStorage.setItem('prevContentScrollTop', sessionStorage.contentScrollTop);
+    }
     if ($menu && sessionStorage.menuScrollTop) {
-		$menu.scrollTop = sessionStorage.menuScrollTop;
+		  $menu.scrollTop = sessionStorage.menuScrollTop;
     }
     // 刷新页面但不切换 pathname 的时候，内容区恢复到记忆的高度
     if ($content && sessionStorage.contentScrollTop && window.location.pathname == sessionStorage.locationPathname) {
       $content.scrollTop = sessionStorage.contentScrollTop;
+    } else if (sessionStorage.prevPrevPathname && sessionStorage.prevPrevPathname === window.location.pathname) {
+      if ($menu && sessionStorage.prevPrevMenuScrollTop) {
+        $menu.scrollTop = sessionStorage.prevPrevMenuScrollTop;
+      }
+      if ($content && sessionStorage.prevPrevContentScrollTop) {
+        $content.scrollTop = sessionStorage.prevPrevContentScrollTop;
+      }
     }
-    sessionStorage.setItem('locationPathname', window.location.pathname);</script><script src="../ydoc/scripts/plugins/dollar.min.js"></script><script src="../ydoc/scripts/plugins/responsive-nav.min.js"></script><script src="../ydoc/scripts/plugins/slideout.min.js"></script><script src="../ydoc/scripts/app.js"></script><script src="../ydoc/ydoc-plugin-search/core.js"></script><script src="../ydoc/ydoc-plugin-search/search.js"></script><script src="../ydoc/ydoc-plugin-edit-page/edit.script.js"></script><script src="../search_json.js"></script><script src="../edit_json.js"></script></body></html>
+    sessionStorage.setItem('locationPathname', window.location.pathname);
+    </script><script src="../ydoc/scripts/plugins/dollar.min.js"></script><script src="../ydoc/scripts/plugins/responsive-nav.min.js"></script><script src="../ydoc/scripts/plugins/slideout.min.js"></script><script src="../ydoc/scripts/app.js"></script><script src="../ydoc/ydoc-plugin-search/core.js"></script><script src="../ydoc/ydoc-plugin-search/search.js"></script><script src="../ydoc/ydoc-plugin-edit-page/edit.script.js"></script><script src="../search_json.js"></script><script src="../edit_json.js"></script></body></html>

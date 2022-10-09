@@ -133,11 +133,11 @@ printf(&quot;Hello, Markdown.&quot;);<br>
 </blockquote>
 <h3 id="二级标题-表格">表格</h3>
 <p>用<code>|</code>表示表格纵向边界，表头和表内容用<code>-</code>隔开，并可用<code>:</code>进行对齐设置，两边都有<code>:</code>则表示居中，若不加<code>:</code>则默认左对齐。</p>
-<pre><code class="language-markdown">|key          | value |
-|:-----------:|------ |
-|title        | ydoc  |
-|content      | ydoc  |
-
+<pre><code class="language-markdown"><span class="token table"><span class="token table-header-row"><span class="token punctuation">|</span><span class="token table-header important">key          </span><span class="token punctuation">|</span><span class="token table-header important"> value </span><span class="token punctuation">|</span>
+</span><span class="token table-line"><span class="token punctuation">|</span><span class="token punctuation">:-----------:</span><span class="token punctuation">|</span><span class="token punctuation">------</span> <span class="token punctuation">|</span>
+</span><span class="token table-data-rows"><span class="token punctuation">|</span><span class="token table-data">title        </span><span class="token punctuation">|</span><span class="token table-data"> ydoc  </span><span class="token punctuation">|</span>
+<span class="token punctuation">|</span><span class="token table-data">content      </span><span class="token punctuation">|</span><span class="token table-data"> ydoc  </span><span class="token punctuation">|</span>
+</span></span>
 </code></pre>
 <p>效果：</p>
 <table>
@@ -162,11 +162,29 @@ printf(&quot;Hello, Markdown.&quot;);<br>
     var $content = document.getElementById('js-content');
     var $summaryItems = Array.prototype.slice.call(document.querySelectorAll('#js-menu .href'));
     var $menu = document.getElementById('js-menu');
+    if (sessionStorage.prevPathname) {
+      sessionStorage.setItem('prevPrevPathname', sessionStorage.prevPathname);
+      sessionStorage.setItem('prevPrevMenuScrollTop', sessionStorage.prevMenuScrollTop);
+      sessionStorage.setItem('prevPrevContentScrollTop', sessionStorage.prevContentScrollTop);
+    }
+    if (sessionStorage.locationPathname) {
+      sessionStorage.setItem('prevPathname', sessionStorage.locationPathname);
+      sessionStorage.setItem('prevMenuScrollTop', sessionStorage.menuScrollTop);
+      sessionStorage.setItem('prevContentScrollTop', sessionStorage.contentScrollTop);
+    }
     if ($menu && sessionStorage.menuScrollTop) {
-		$menu.scrollTop = sessionStorage.menuScrollTop;
+		  $menu.scrollTop = sessionStorage.menuScrollTop;
     }
     // 刷新页面但不切换 pathname 的时候，内容区恢复到记忆的高度
     if ($content && sessionStorage.contentScrollTop && window.location.pathname == sessionStorage.locationPathname) {
       $content.scrollTop = sessionStorage.contentScrollTop;
+    } else if (sessionStorage.prevPrevPathname && sessionStorage.prevPrevPathname === window.location.pathname) {
+      if ($menu && sessionStorage.prevPrevMenuScrollTop) {
+        $menu.scrollTop = sessionStorage.prevPrevMenuScrollTop;
+      }
+      if ($content && sessionStorage.prevPrevContentScrollTop) {
+        $content.scrollTop = sessionStorage.prevPrevContentScrollTop;
+      }
     }
-    sessionStorage.setItem('locationPathname', window.location.pathname);</script><script src="../ydoc/scripts/plugins/dollar.min.js"></script><script src="../ydoc/scripts/plugins/responsive-nav.min.js"></script><script src="../ydoc/scripts/plugins/slideout.min.js"></script><script src="../ydoc/scripts/app.js"></script><script src="../ydoc/ydoc-plugin-search/core.js"></script><script src="../ydoc/ydoc-plugin-search/search.js"></script><script src="../ydoc/ydoc-plugin-edit-page/edit.script.js"></script><script src="../search_json.js"></script><script src="../edit_json.js"></script></body></html>
+    sessionStorage.setItem('locationPathname', window.location.pathname);
+    </script><script src="../ydoc/scripts/plugins/dollar.min.js"></script><script src="../ydoc/scripts/plugins/responsive-nav.min.js"></script><script src="../ydoc/scripts/plugins/slideout.min.js"></script><script src="../ydoc/scripts/app.js"></script><script src="../ydoc/ydoc-plugin-search/core.js"></script><script src="../ydoc/ydoc-plugin-search/search.js"></script><script src="../ydoc/ydoc-plugin-edit-page/edit.script.js"></script><script src="../search_json.js"></script><script src="../edit_json.js"></script></body></html>

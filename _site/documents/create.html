@@ -14,16 +14,16 @@
 <h3 id="基本插件-index.js">index.js</h3>
 <p>index.js 是插件的入口文件，init、finish、page:before、page 是插件绑定的钩子。每个插件都可以绑定不同的钩子实现各种各样的功能。</p>
 <pre><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
-  init<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function-variable function">init</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'init'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  finish<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>    
+  <span class="token function-variable function">finish</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>    
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'end...'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token string">'page:before'</span><span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>page<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token string">'page:before'</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">page</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'beforePage'</span><span class="token punctuation">,</span> page<span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  page<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>page<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function-variable function">page</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">page</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'page'</span><span class="token punctuation">,</span> page<span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
@@ -35,10 +35,10 @@
 <li>plugins[n].module 和基本插件中的 <code>index.js</code> 的 <code>module.exports</code> 内容一致</li>
 </ul>
 <pre><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
-  plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
-    name<span class="token punctuation">:</span> <span class="token string">"privatePlugin"</span><span class="token punctuation">,</span>
-    module<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-      init<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  plugins<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+    name<span class="token operator">:</span> <span class="token string">"privatePlugin"</span><span class="token punctuation">,</span>
+    module<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token function-variable function">init</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'init privatePlugin successfully!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
       <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
@@ -50,11 +50,29 @@
     var $content = document.getElementById('js-content');
     var $summaryItems = Array.prototype.slice.call(document.querySelectorAll('#js-menu .href'));
     var $menu = document.getElementById('js-menu');
+    if (sessionStorage.prevPathname) {
+      sessionStorage.setItem('prevPrevPathname', sessionStorage.prevPathname);
+      sessionStorage.setItem('prevPrevMenuScrollTop', sessionStorage.prevMenuScrollTop);
+      sessionStorage.setItem('prevPrevContentScrollTop', sessionStorage.prevContentScrollTop);
+    }
+    if (sessionStorage.locationPathname) {
+      sessionStorage.setItem('prevPathname', sessionStorage.locationPathname);
+      sessionStorage.setItem('prevMenuScrollTop', sessionStorage.menuScrollTop);
+      sessionStorage.setItem('prevContentScrollTop', sessionStorage.contentScrollTop);
+    }
     if ($menu && sessionStorage.menuScrollTop) {
-		$menu.scrollTop = sessionStorage.menuScrollTop;
+		  $menu.scrollTop = sessionStorage.menuScrollTop;
     }
     // 刷新页面但不切换 pathname 的时候，内容区恢复到记忆的高度
     if ($content && sessionStorage.contentScrollTop && window.location.pathname == sessionStorage.locationPathname) {
       $content.scrollTop = sessionStorage.contentScrollTop;
+    } else if (sessionStorage.prevPrevPathname && sessionStorage.prevPrevPathname === window.location.pathname) {
+      if ($menu && sessionStorage.prevPrevMenuScrollTop) {
+        $menu.scrollTop = sessionStorage.prevPrevMenuScrollTop;
+      }
+      if ($content && sessionStorage.prevPrevContentScrollTop) {
+        $content.scrollTop = sessionStorage.prevPrevContentScrollTop;
+      }
     }
-    sessionStorage.setItem('locationPathname', window.location.pathname);</script><script src="../ydoc/scripts/plugins/dollar.min.js"></script><script src="../ydoc/scripts/plugins/responsive-nav.min.js"></script><script src="../ydoc/scripts/plugins/slideout.min.js"></script><script src="../ydoc/scripts/app.js"></script><script src="../ydoc/ydoc-plugin-search/core.js"></script><script src="../ydoc/ydoc-plugin-search/search.js"></script><script src="../ydoc/ydoc-plugin-edit-page/edit.script.js"></script><script src="../search_json.js"></script><script src="../edit_json.js"></script></body></html>
+    sessionStorage.setItem('locationPathname', window.location.pathname);
+    </script><script src="../ydoc/scripts/plugins/dollar.min.js"></script><script src="../ydoc/scripts/plugins/responsive-nav.min.js"></script><script src="../ydoc/scripts/plugins/slideout.min.js"></script><script src="../ydoc/scripts/app.js"></script><script src="../ydoc/ydoc-plugin-search/core.js"></script><script src="../ydoc/ydoc-plugin-search/search.js"></script><script src="../ydoc/ydoc-plugin-edit-page/edit.script.js"></script><script src="../search_json.js"></script><script src="../edit_json.js"></script></body></html>

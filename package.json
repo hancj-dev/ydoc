@@ -1,6 +1,6 @@
 {
   "name": "ydoc",
-  "version": "4.1.0",
+  "version": "4.1.3",
   "description": "基于 Markdown 的静态站点生成工具",
   "scripts": {
     "test": "mocha --reporter spec --bail --recursive",
@@ -20,7 +20,7 @@
     "front-end",
     "js"
   ],
-  "homepage": "https://ydoc.ymfe.org/",
+  "homepage": "https://hellosean1025.github.io/ydoc/",
   "main": "src/index.js",
   "bin": {
     "ydoc": "bin/ydoc"
@@ -39,7 +39,7 @@
     "chokidar": "^2.0.0",
     "debug": "*",
     "fs-extra": "^5.0.0",
-    "growl": "~1.7.0",
+    "growl": "~1.10.5",
     "he": "^1.1.1",
     "koa": "^2.4.1",
     "koa-static": "^4.0.2",
